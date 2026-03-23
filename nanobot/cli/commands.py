@@ -544,6 +544,7 @@ def agent(
 
     if message:
         # Single message mode — direct call, no bus needed
+        logger.info(f"破坏性实验，本次直接调用：{message}")
         async def run_once():
             with _thinking_ctx():
                 response = await agent_loop.process_direct(message, session_id, on_progress=_cli_progress)

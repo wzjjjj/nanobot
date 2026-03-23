@@ -37,11 +37,13 @@
   - 关键问题：Agent 何时决定“记住”一件事？记忆是如何被检索并注入到 Context 中的？
 
 - [**Day 05: 工具与技能体系 (Tools & Skills)**](days/Day_05_Tools_and_Skills.md)
-  - 深度追踪：`ToolRegistry` 的注册机制与 `Skills` 的动态加载。
-  - 关键问题：如何添加一个自定义工具？Skill 是如何通过 Prompt 增强 Agent 能力的？
+  - **更新**：新增 **MCP (Model Context Protocol)** 和 **Skill System** 学习内容。
+  - 深度追踪：`ToolRegistry`、`MCPToolWrapper` 与 `SkillsLoader`。
+  - 关键问题：如何集成 MCP 工具？Skill 是如何通过 Markdown 定义并增强 Agent 能力的？
 
 ### 阶段三：基础设施 (Infrastructure)
 - [**Day 06: 异步总线与多渠道 (Bus & Channels)**](days/Day_06_Bus_and_Channels.md)
+  - **更新**：新增 **Matrix** 等新 Channel 的适配学习。
   - 深度追踪：`asyncio.Queue` 在 `MessageBus` 中的应用。
   - 关键问题：系统如何处理高并发消息？如何实现跨平台的统一接口？
 
