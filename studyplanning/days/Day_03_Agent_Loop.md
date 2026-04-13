@@ -26,6 +26,7 @@
 
 *   **文件**：[nanobot/agent/loop.py](file:///d:/编程学习记录/nanobot/nanobot/agent/loop.py)
 *   **动作**：
+    *   观察 `_connect_mcp()` 方法及其在 `_process_message` 附近的调用（MCP 初始化）。
     *   找到 `if response.has_tool_calls:` 分支。
     *   观察 `tool_calls` 是如何被提取的（`response.tool_calls`）。
     *   观察 Assistant 消息是如何被追加的（包含 `tool_calls`）。

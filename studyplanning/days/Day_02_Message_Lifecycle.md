@@ -15,20 +15,22 @@
 *   **文件**：[nanobot/cli/commands.py](file:///d:/编程学习记录/nanobot/nanobot/cli/commands.py)
 *   **动作**：
     *   找到 `agent` 命令函数。
-    *   观察 `msg = InboundMessage(...)` 的创建位置。
-    *   观察 `agent_loop.process_direct(msg)` 的调用。
-*   **思考**：如果是从 Telegram 进来的消息，会怎么处理？（提示：`nanobot/channels/telegram.py` -> `_on_message` -> `bus.publish_inbound`）
+    *   区分两种路径：
+        *   单条消息模式：运行 `nanobot agent -m "hi"`，代码会调用 `agent_loop.process_direct(message, session_id, ...)`；`InboundMessage(...)` 是在 `nanobot/agent/loop.py` 的 `process_direct` 里创建的。
+        *   交互模式：运行 `nanobot agent`（不带 `-m`），代码会在 CLI 中直接 `bus.publish_inbound(InboundMessage(...))`，然后由 `AgentLoop.run()` 消费。
+    *   在 `nanobot/agent/loop.py` 里找到 `process_direct`，确认 `msg = InboundMessage(...)` 的真实位置。
+*   **思考**：如果是从 Telegram 进来的消息，会怎么处理？（提示：`nanobot/channels/telegram.py` -> `_on_message` -> `BaseChannel._handle_message` -> `bus.publish_inbound`）
 
 ### 2. 深入 Session 内部 (Dive into Session)
 
 *   **文件**：[nanobot/agent/loop.py](file:///d:/编程学习记录/nanobot/nanobot/agent/loop.py)
 *   **动作**：
     *   找到 `_process_message` 方法。
-    *   找到 `session = self.sessions.get_or_create(msg.session_key)`。
+    *   找到 `key = session_key or msg.session_key`，以及紧随其后的 `session = self.sessions.get_or_create(key)`。
     *   跳转到 [nanobot/session/manager.py](file:///d:/编程学习记录/nanobot/nanobot/session/manager.py)。
     *   观察 `Session` 类的 `messages` 属性是如何存储历史消息的（JSONL 格式）。
 *   **思考**：
-    *   `session_key` 是什么格式？（提示：`channel:chat_id`）
+    *   `session_key` 是什么格式？（提示：默认 `channel:chat_id`，也可能被 `session_key_override` 覆盖）
     *   为什么需要 `get_or_create`？
     *   历史消息是如何从文件加载到内存的？（提示：`_load` 方法）
 
@@ -39,7 +41,7 @@
     *   找到 `ContextBuilder.build_messages` 方法。
     *   观察 System Prompt 是如何生成的（包含 workspace 信息、Memory、Skills）。
     *   观察 `history` 是如何被拼接进去的。
-    *   观察 `current_message` 是如何被作为 User 消息添加的。
+    *   观察 `current_message` 是如何与运行时信息合并后，作为单条 User 消息添加的（避免连续同 role 消息）。
 *   **思考**：
     *   System Prompt 的内容是固定的吗？还是动态生成的？
     *   如果历史消息太长，会被截断吗？（提示：`session.get_history(max_messages=...)`）

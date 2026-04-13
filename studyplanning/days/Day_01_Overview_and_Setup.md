@@ -20,7 +20,7 @@
 
 ### 2. Hello World (CLI Interaction)
 
-*   **动作**：运行以下命令，并观察输出。
+*   **动作**：运行以下命令，并观察输出。    
     ```bash
     nanobot agent -m "你好，介绍一下你自己"
     ```
@@ -35,6 +35,7 @@
     nanobot agent -m "今天天气怎么样" --logs
     ```
 *   **观察点**：
+
     *   寻找 `Agent loop started`。
     *   寻找 `Processing message from cli:direct`。
     *   寻找 `Response to cli:direct`。
@@ -48,6 +49,7 @@
     *   `channels/`: 对外接口
     *   `tools/`: 手脚
     *   `memory/`: 记忆
+    *   `templates/`: 初始化模板 (New!)
 *   **验证**：对比文章中的架构描述，看你的理解是否一致。
 
 ## 破坏性实验 (Destructive Experiment)
@@ -62,6 +64,7 @@
 
 *   [nanobot/cli/commands.py](file:///d:/编程学习记录/nanobot/nanobot/cli/commands.py): CLI 命令入口。
 *   [nanobot/config/loader.py](file:///d:/编程学习记录/nanobot/nanobot/config/loader.py): 配置加载逻辑。
+*   [nanobot/config/paths.py](file:///d:/编程学习记录/nanobot/nanobot/config/paths.py): 路径管理 (New!)。
 
 ## 验收标准
 
